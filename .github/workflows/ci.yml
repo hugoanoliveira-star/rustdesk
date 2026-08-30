@@ -75,13 +75,13 @@ jobs:
           # - { target: aarch64-unknown-linux-gnu   , os: ubuntu-20.04, use-cross: true }
           # - { target: arm-unknown-linux-gnueabihf , os: ubuntu-20.04, use-cross: true }
           # - { target: arm-unknown-linux-musleabihf, os: ubuntu-20.04, use-cross: true }
-          # - { target: i686-pc-windows-msvc        , os: windows-2022                  }
+          - { target: i686-pc-windows-msvc        , os: windows-2022                  }
           # - { target: i686-unknown-linux-gnu      , os: ubuntu-20.04, use-cross: true }
           # - { target: i686-unknown-linux-musl     , os: ubuntu-20.04, use-cross: true }
-          # - { target: x86_64-apple-darwin         , os: macos-10.15                   }
+          - { target: x86_64-apple-darwin         , os: macos-10.15                   }
           # - { target: x86_64-pc-windows-gnu       , os: windows-2022                  }
-          # - { target: x86_64-pc-windows-msvc      , os: windows-2022                  }
-          # - { target: aarch64-pc-windows-msvc     , os: windows-11-arm                }
+          - { target: x86_64-pc-windows-msvc      , os: windows-2022                  }
+          - { target: aarch64-pc-windows-msvc     , os: windows-11-arm                }
           - { target: x86_64-unknown-linux-gnu    , os: ubuntu-24.04                  }
           # - { target: x86_64-unknown-linux-musl   , os: ubuntu-20.04, use-cross: true }
     steps:
@@ -193,7 +193,7 @@ jobs:
     #     # Figure out suffix of binary
     #     EXE_suffix=""
     #     case ${{ matrix.job.target }} in
-    #       *-pc-windows-*) EXE_suffix=".exe" ;;
+           *-pc-windows-*) EXE_suffix=".exe" ;;
     #     esac;
 
     #     # Figure out what strip tool to use if any
@@ -201,7 +201,7 @@ jobs:
     #     case ${{ matrix.job.target }} in
     #       arm-unknown-linux-*) STRIP="arm-linux-gnueabihf-strip" ;;
     #       aarch64-unknown-linux-gnu) STRIP="aarch64-linux-gnu-strip" ;;
-    #       *-pc-windows-msvc) STRIP="" ;;
+           *-pc-windows-msvc) STRIP="" ;;
     #     esac;
 
     #     # Setup paths
