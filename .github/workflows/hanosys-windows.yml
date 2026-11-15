@@ -115,6 +115,8 @@ jobs:
         shell: bash
         run: |
           cp hanosys/custom.txt ./rustdesk/custom.txt
+          # A instalação (1.5.3) copia a pasta sem renomear: o exe já precisa ter o nome do app (HanoSys.exe).
+          mv ./rustdesk/rustdesk.exe ./rustdesk/HanoSys.exe
           ls ./rustdesk ./rustdesk/data/flutter_assets/assets | grep -iE "custom|logo|icon" || true
 
       - name: find Runner.res
@@ -136,7 +138,7 @@ jobs:
           sed -i '/dpiAware/d' res/manifest.xml
           pushd ./libs/portable
           pip3 install -r requirements.txt
-          python3 ./generate.py -f ../../rustdesk/ -o . -e ../../rustdesk/rustdesk.exe
+          python3 ./generate.py -f ../../rustdesk/ -o . -e ../../rustdesk/HanoSys.exe
           popd
           mkdir -p ./SignOutput
           mv ./target/release/rustdesk-portable-packer.exe ./SignOutput/hanosys-suporte-${{ env.VERSION }}.exe
