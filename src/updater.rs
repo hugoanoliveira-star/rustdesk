@@ -193,6 +193,12 @@ fn check_update(manually: bool) -> ResultType<()> {
     if !manually {
         return Ok(());
     }
+    // HanoSys: a atualização baixa o RustDesk original (sem a nossa chave), que ignora o custom.txt assinado e
+    // volta para os servidores públicos. A versão com marca só se atualiza pela nossa montagem (acesso.hanosys.com.br).
+    if crate::is_custom_client() {
+        log::info!("Custom client: stock update disabled (manually={})", manually);
+        return Ok(());
+    }
     #[cfg(target_os = "windows")]
     let update_msi = crate::platform::is_msi_installed()? && !crate::is_custom_client();
     #[cfg(not(target_os = "windows"))]
