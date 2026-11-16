@@ -13,3 +13,8 @@ Programa de suporte remoto da HanoSys Tecnologia, baseado no [RustDesk](https://
 ## Como gerar uma versão
 Criar e enviar uma tag `hanosys-<versão>-<n>` (ex.: `hanosys-1.5.3-1`). O GitHub monta e publica em Releases o
 `hanosys-suporte-<versão>.exe` (portátil: abre sem instalar e tem a opção de instalar).
+
+## Montagens
+- 1.5.3-4: atualização automática bloqueada.
+- 1.5.3-5: senha permanente padrão dos clientes (hash no custom.txt).
+- 1.5.3-6/7: servidor de API próprio (https://acesso.hanosys.com.br) para sinal de vida, dados do computador e sessões.
