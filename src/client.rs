@@ -860,6 +860,9 @@ impl Client {
 
         let switch_code = interface.get_switch_code();
         let legacy_secure = !key.is_empty() && (!token.is_empty() || !switch_code.is_empty());
+        // HanoSys: sem a troca de chaves (hbbs livre), o token do login não vai ao hbbs em claro;
+        // o hbbs livre não usa o token para nada.
+        let token = if crate::common::HANOSYS_HBBS_SEM_TROCA { "" } else { token };
         let carries_offer = webrtc_offerer.as_ref().and_then(|g| g.stream()).is_some();
         // Counted from before the key exchange, so the exchange spends the UDP NAT test's own
         // wait rather than replacing it: the test runs beside both.
@@ -1810,6 +1813,8 @@ impl Client {
             if !key.is_empty() && (!token.is_empty() || !switch_code.is_empty()) {
                 secure_tcp(&mut socket, key).await?;
             }
+            // HanoSys: ver HANOSYS_HBBS_SEM_TROCA (o token não vai ao hbbs livre)
+            let token = if crate::common::HANOSYS_HBBS_SEM_TROCA { "" } else { token };
 
             ipv4 = socket.local_addr().is_ipv4();
             let mut msg_out = RendezvousMessage::new();

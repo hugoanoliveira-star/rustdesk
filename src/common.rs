@@ -2289,7 +2289,16 @@ pub fn check_process(arg: &str, mut same_uid: bool) -> bool {
     false
 }
 
+/// HanoSys (montagem 8, 26/11/2026): o nosso servidor é o hbbs livre 1.1.16, que nunca inicia a troca
+/// de chaves (só o RustDesk Server Pro faz). Esperar por ela travava 18 s e derrubava a conexão
+/// ("Failed to secure tcp: deadline has elapsed") sempre que o programa estava logado (token).
+/// Com o servidor livre, a troca é pulada e o token do login não vai ao hbbs (ver client.rs).
+pub const HANOSYS_HBBS_SEM_TROCA: bool = true;
+
 async fn secure_tcp_impl(conn: &mut Stream, key: &str, log_on_success: bool) -> ResultType<()> {
+    if HANOSYS_HBBS_SEM_TROCA {
+        return Ok(());
+    }
     // Skip additional encryption when using WebSocket connections (wss://)
     // as WebSocket Secure (wss://) already provides transport layer encryption.
     // This doesn't affect the end-to-end encryption between clients,
@@ -2388,6 +2397,9 @@ async fn secure_tcp_silent(conn: &mut Stream, key: &str) -> ResultType<()> {
 pub async fn secure_tcp_required(conn: &mut Stream, key: &str) -> ResultType<()> {
     if use_ws() {
         return Ok(());
+    }
+    if HANOSYS_HBBS_SEM_TROCA {
+        bail!("the rendezvous server does not do the key exchange (hbbs livre)");
     }
     if key_exchange(conn, key, true).await? {
         Ok(())

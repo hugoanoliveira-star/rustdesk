@@ -18,3 +18,4 @@ Criar e enviar uma tag `hanosys-<versão>-<n>` (ex.: `hanosys-1.5.3-1`). O GitHu
 - 1.5.3-4: atualização automática bloqueada.
 - 1.5.3-5: senha permanente padrão dos clientes (hash no custom.txt).
 - 1.5.3-6/7: servidor de API próprio (https://acesso.hanosys.com.br) para sinal de vida, dados do computador e sessões.
+- 1.5.3-8: conecta com o programa logado (o hbbs livre não faz a troca de chaves; antes dava "Failed to secure tcp: deadline has elapsed"); o token do login não vai ao hbbs.
